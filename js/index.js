@@ -16,11 +16,29 @@ var btnColors = ['red', 'green', 'blue', 'yellow'];
 var gamePattern = [];
 // User click patterns
 var userPattern = [];
-
+// Boolean that indicates whether or not the game has started
+var gameStart = false;
+// The level the user is on
+var level = 0;
 
 // ------------JQUERYS---------------
+
+// Detect when a keyboard key has been pushed
+$(document).keydown(function() {
+  // If the game has started
+  if (!gameStart){
+    // Change the title to the level the user is currently on
+    $('.level-title').text('Level ' + level);
+    // Call nextSequence()
+    nextSequence();
+    // Prevent a new sequence from starting
+    gameStart = true;
+  }
+});
+
 // Detect if a button is clicked
 $('.btn').click(function() {
+
   // Store the id of the button that was clicked into a variable
   var userChosenColor = $(this).attr('id');
   //  Add the value of userChosenColor to the end of userPattern
@@ -36,9 +54,16 @@ $('.btn').click(function() {
 
 
 
+
 // ------------FUNCTIONS---------------
-// Choose a random color
-function nextColor() {
+// Create a new sequence
+function nextSequence() {
+
+    // Increase the value of level by 1
+    level++;
+    // Update the level title with level's new value
+    $('.level-title').text('Level ' + level);
+
     // Generate a random number between 0-3
     var randomNumber = Math.floor(Math.random() * 4);
     // Select a random color from btnColors
@@ -47,13 +72,14 @@ function nextColor() {
     gamePattern.push(randomColor);
 
     // Create a flash animation
-    $("." + randomColor).fadeOut(100).fadeIn(100).fadeOut(100);
+    $("#" + randomColor).fadeIn(100).fadeOut(100).fadeIn(100);
     // Play an audio file relative to the value of randomColor
     playAudio(randomColor);
 }
 
 // Play an audio file
 function playAudio(color) {
+
   // Create a new Audio object for each color
   var audio = new Audio('sounds/' + color + '.mp3')
   audio.play();
@@ -61,6 +87,7 @@ function playAudio(color) {
 
 // Add a box-shadow animation on button clicks
 function animateBtnClick(colorClicked) {
+
   // Add the clicked class to the button that was clicked
   $('#' + colorClicked).addClass('clicked');
 
