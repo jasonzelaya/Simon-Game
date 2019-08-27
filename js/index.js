@@ -1,17 +1,7 @@
-// TODO
-// choose random color patterns
-// display the color pattern for the user to match
-// add sounds when the buttons are clicked
-// add animations when the buttons are clicked
-// start/end game
-// confirm right/wrong answers
-// game over events
-// restart the game
-
-
 // ------------VARIABLES---------------
+
 //  Button Colors
-var btnColors = ['red', 'green', 'blue', 'yellow'];
+var btnColors = ['green', 'red', 'yellow', 'blue'];
 // Game generated pattern for the user to match
 var gamePattern = [];
 // User click patterns
@@ -55,10 +45,8 @@ $('.btn').click(function() {
   checkAnswer(userPattern.length-1);
 });
 
-
-
-
 // ------------FUNCTIONS---------------
+
 // Create a new sequence
 function nextSequence() {
 
@@ -117,5 +105,26 @@ function checkAnswer(currentLevel) {
       }, 1000)
   }else{
     console.log('wrong');
+    // Play wrong.mp3
+    playAudio('wrong');
+    // Add game-over class to body
+    $('body').addClass('game-over');
+    // Remove game-over from body after 200 milliseconds
+    setTimeout(function() {
+      $('body').removeClass('game-over');
+    }, 200);
+    // Change h1 title
+    $('.level-title').text('Game Over, Press Any Key to Restart');
+    // Restart the game
+    resetGame();
   }
+}
+
+// Reset the game
+function resetGame() {
+
+  // Reset the level, gamePattern and gameStart variables
+  level = 0;
+  gamePattern = [];
+  gameStart = false;
 }
