@@ -25,11 +25,7 @@ body {
   width: 200px;
 }
 
-/* Not in index.html. Will need to toggle this in index.js for when a person loses */
-.game-over {
-  background-color: red;
-  opacity: 0.5;
-}
+/* Button Colors */
 
 .red {
   background-color: red;
@@ -45,4 +41,16 @@ body {
 
 .yellow {
   background-color: yellow;
+}
+
+/* Animations in index.js */
+
+.game-over {
+  background-color: red;
+  opacity: 0.5;
+}
+
+.clicked {
+  background-color: grey;
+  box-shadow: 0 0 20px white;
 }
