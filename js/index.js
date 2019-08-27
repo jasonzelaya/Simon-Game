@@ -48,8 +48,11 @@ $('.btn').click(function() {
 
   // Play an audio file relative to the value of userChosenColor
   playAudio(userChosenColor);
+  // Add shadow-box animation
+  animateBtnClick(userChosenColor);
 
-  animateBtnClick(userChosenColor)
+  // Check whether the user's answer is correct
+  checkAnswer(userPattern.length-1);
 });
 
 
@@ -59,6 +62,8 @@ $('.btn').click(function() {
 // Create a new sequence
 function nextSequence() {
 
+    // Reset userPattern to make it ready for the next level
+    userPattern = [];
     // Increase the value of level by 1
     level++;
     // Update the level title with level's new value
@@ -82,6 +87,7 @@ function playAudio(color) {
 
   // Create a new Audio object for each color
   var audio = new Audio('sounds/' + color + '.mp3')
+  // Play the audio file
   audio.play();
 }
 
@@ -95,4 +101,21 @@ function animateBtnClick(colorClicked) {
   setTimeout(function() {
     $('#' + colorClicked).removeClass('clicked');
   }, 100);
+}
+
+// Check whether the user's answers are correct
+function checkAnswer(currentLevel) {
+
+  // Check whether the user's most recent answer is the same as the game's pattern
+  if (userPattern[currentLevel] === gamePattern[currentLevel]) {
+    console.log('success');
+    // Confirm whether the user has finished their answer
+    if (userPattern.length === gamePattern.length)
+      // Call nextSequence with a 1000 millisecond delay
+      setTimeout(function() {
+        nextSequence()
+      }, 1000)
+  }else{
+    console.log('wrong');
+  }
 }
