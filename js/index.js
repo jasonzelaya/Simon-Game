@@ -27,8 +27,11 @@ $('.btn').click(function() {
   userPattern.push(userChosenColor);
   // Confirm it is working properly in Chrome Developer Tools
   console.log(userPattern);
+
   // Play an audio file relative to the value of userChosenColor
   playAudio(userChosenColor);
+
+  animateBtnClick(userChosenColor)
 });
 
 
@@ -47,7 +50,13 @@ function nextColor() {
     $("." + randomColor).fadeOut(100).fadeIn(100).fadeOut(100);
     // Play an audio file relative to the value of randomColor
     playAudio(randomColor);
+}
 
+// Play an audio file
+function playAudio(color) {
+  // Create a new Audio object for each color
+  var audio = new Audio('sounds/' + color + '.mp3')
+  audio.play();
 }
 
 // Add a box-shadow animation on button clicks
@@ -59,12 +68,4 @@ function animateBtnClick(colorClicked) {
   setTimeout(function() {
     $('#' + colorClicked).removeClass('clicked');
   }, 100);
-}
-
-
-// Play an audio file
-function playAudio(color) {
-  // Create a new Audio object for each color
-  var audio = new Audio('sounds/' + color + '.mp3')
-  audio.play();
 }
