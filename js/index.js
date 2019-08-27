@@ -19,9 +19,9 @@ $(document).keydown(function() {
   if (!gameStart){
     // Change the title to the level the user is currently on
     $('.level-title').text('Level ' + level);
-    // Call nextSequence()
+    // Create a new sequence
     nextSequence();
-    // Prevent a new sequence from starting
+    // Prevent a new sequence from being created
     gameStart = true;
   }
 });
@@ -33,8 +33,6 @@ $('.btn').click(function() {
   var userChosenColor = $(this).attr('id');
   //  Add the value of userChosenColor to the end of userPattern
   userPattern.push(userChosenColor);
-  // Confirm it is working properly in Chrome Developer Tools
-  console.log(userPattern);
 
   // Play an audio file relative to the value of userChosenColor
   playAudio(userChosenColor);
@@ -47,6 +45,33 @@ $('.btn').click(function() {
 
 // ------------FUNCTIONS---------------
 
+// Check whether the user's answers are correct
+function checkAnswer(currentLevel) {
+
+  // Check whether the user's most recent answer is the same as the game's pattern
+  if (userPattern[currentLevel] === gamePattern[currentLevel]) {
+    // Confirm whether the user has finished their answer
+    if (userPattern.length === gamePattern.length)
+      // Call nextSequence with a 1000 millisecond delay
+      setTimeout(function() {
+        nextSequence()
+      }, 1000)
+  }else{
+    // Play wrong.mp3
+    playAudio('wrong');
+    // Add game-over class to body
+    $('body').addClass('game-over');
+    // Remove game-over from body after 200 milliseconds
+    setTimeout(function() {
+      $('body').removeClass('game-over');
+    }, 200);
+    // Change h1 title
+    $('.level-title').text('Game Over, Press Any Key to Restart');
+    // Restart the game
+    resetGame();
+  }
+}
+
 // Create a new sequence
 function nextSequence() {
 
@@ -54,29 +79,20 @@ function nextSequence() {
     userPattern = [];
     // Increase the value of level by 1
     level++;
-    // Update the level title with level's new value
+    // Update h1 with level's new value
     $('.level-title').text('Level ' + level);
 
     // Generate a random number between 0-3
     var randomNumber = Math.floor(Math.random() * 4);
     // Select a random color from btnColors
     var randomColor = btnColors[randomNumber];
-    // Add randomColor to gamePattern
+    // Add randomColor to the end of gamePattern
     gamePattern.push(randomColor);
 
     // Create a flash animation
     $("#" + randomColor).fadeIn(100).fadeOut(100).fadeIn(100);
     // Play an audio file relative to the value of randomColor
     playAudio(randomColor);
-}
-
-// Play an audio file
-function playAudio(color) {
-
-  // Create a new Audio object for each color
-  var audio = new Audio('sounds/' + color + '.mp3')
-  // Play the audio file
-  audio.play();
 }
 
 // Add a box-shadow animation on button clicks
@@ -91,33 +107,13 @@ function animateBtnClick(colorClicked) {
   }, 100);
 }
 
-// Check whether the user's answers are correct
-function checkAnswer(currentLevel) {
+// Play an audio file
+function playAudio(color) {
 
-  // Check whether the user's most recent answer is the same as the game's pattern
-  if (userPattern[currentLevel] === gamePattern[currentLevel]) {
-    console.log('success');
-    // Confirm whether the user has finished their answer
-    if (userPattern.length === gamePattern.length)
-      // Call nextSequence with a 1000 millisecond delay
-      setTimeout(function() {
-        nextSequence()
-      }, 1000)
-  }else{
-    console.log('wrong');
-    // Play wrong.mp3
-    playAudio('wrong');
-    // Add game-over class to body
-    $('body').addClass('game-over');
-    // Remove game-over from body after 200 milliseconds
-    setTimeout(function() {
-      $('body').removeClass('game-over');
-    }, 200);
-    // Change h1 title
-    $('.level-title').text('Game Over, Press Any Key to Restart');
-    // Restart the game
-    resetGame();
-  }
+  // Create a new Audio object for each color
+  var audio = new Audio('sounds/' + color + '.mp3')
+  // Play the audio file
+  audio.play();
 }
 
 // Reset the game

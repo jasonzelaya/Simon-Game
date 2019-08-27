@@ -26,11 +26,6 @@ body {
 }
 
 /* Button Colors */
-
-.blue {
-  background-color: blue;
-}
-
 .green {
   background-color: green;
 }
@@ -41,6 +36,10 @@ body {
 
 .yellow {
   background-color: yellow;
+}
+
+.blue {
+  background-color: blue;
 }
 
 /* Animations in index.js */
