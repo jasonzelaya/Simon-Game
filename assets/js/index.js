@@ -111,7 +111,7 @@ function animateBtnClick(colorClicked) {
 function playAudio(color) {
 
   // Create a new Audio object for each color
-  var audio = new Audio('sounds/' + color + '.mp3')
+  var audio = new Audio('assets/sounds/' + color + '.mp3')
   // Play the audio file
   audio.play();
 }
